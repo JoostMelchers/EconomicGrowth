@@ -1,24 +1,33 @@
-#` Fetch data from the World Bank with API's
-#`
-#` A single function will be created that will help retrieve the 
-#` correct data for analyses concerning economic growth theories
-#`
-#` @param begin A numeric or string indicating from which time to begin collecting data
-#` @param end A numeric or string indicating until when to collect data
-#`
-#` @return
-#`
-#` @examples
-#`
-#` \dontrun{
-#`
-#` }
-#`
-fetch_data_wb <- function(years){
+#' Fetch data from the World Bank with API's
+#'
+#' A single function will be created that will help retrieve data for analyses 
+#' concerning the global economy and more.
+#'
+#' @param begin A numeric. Indicating from which time to begin collecting data.
+#' @param end A numeric. Indicating until when to collect data.
+#' @param indicators A character vector. Indicator names need to exactly
+#' match the names as used by the WB databank. 
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' }
+fetch_data_wb <- function(begin, end, indicators){
   
-  # Caching
+  # input testing --------------------------------------------------------------
+  assertthat::is.count(begin)
+  assertthat::is.count(end)
+  assertthat::assert_that(is.character(indicators), msg = "Error: 'indicators'
+                          must be a character vector.")
   
-  # Structuring API call
+  # caching --------------------------------------------------------------------
+  # to be continued
+  
+  # structuring API call -------------------------------------------------------
   basic <- "https://api.worldbank.org/v2/countries/all/indicators/?"
   ## date
   begin <- min(as.numeric(years))
@@ -29,11 +38,9 @@ fetch_data_wb <- function(years){
   ## concatenated
   api_call <- paste0(basic, date, format)
   
-  # Fetching data
-  jsonlite::fromJSON(api_call)
+  # fetching data --------------------------------------------------------------
+  output <- jsonlite::fromJSON(api_call)
   
-  # Structuring data
-  
-  # Return
-  return()
+  # return ---------------------------------------------------------------------
+  return(output)
 }
